@@ -1,18 +1,33 @@
-Instructor: 00:00 We've sent the allPets query, so we have some information about the pet, their name and their weight. Now, I know that Biscuit and Jungle are cats, because I know that cats, but I might not have all of them memorized.
+[Lesson 3](https://egghead.io/lessons/graphql-query-an-enumeration-type-with-graphql)
 
-00:11 We want to be able to find out what category the pet belongs to. When we're using GraphQL Playground, we can hit control-space. This will surface all of the different fields that are available on this query.
+We want to get more information about our animals. To do that, we can hit `control`+`space` and this will bring up all of the fields that are available. 
 
-00:23 Let's go ahead and add category to our query. When I click play, we should see category being returned.
 
-Now, categories look like strings, but they all seem pretty similar. CAT, DOG, STINGRAY, and RABBIT. GraphQL is a query language for your API, but it's also a type system for your API.
+Let's add `category` to our query which will return what type of animal our pet is. 
 
-00:43 The GraphQL spec describes a schema definition language, which we'll use to define all of the different queries and all of the different types that are available on this API. If you click the schema tab, you can take a look at this schema.
+```query
+query {
+  allPets {
+    name
+    weight
+    category
+  }
+  totalPets
+}
+```
 
-See 0:55 in lesson Schema tab shown on the side of the playground
+```json
+{
+  "name": "Biscuit",
+  "weight": 10.2,
+  "category": "CAT"
+}
+```
 
-00:56 allPets returns a list of pets, and I can access all of the different fields on this pet type by scrolling down. Here, it says that category returns an option called petCategory. petCategory is an enumeration type that represents a restricted list of options for this field. Cat, dog, rabbit, and stingray.
+GraphQL is a query language for your API, but it's also a type system for your API.
 
-01:18 Here's another tip you can use when exploring APIs with GraphQL Playground. You can hover over one of these field names and press command. This will allow you to click on that field, and it'll take you directly to that field definition in the schema.
+The GraphQL spec describes a schema definition language, which we'll use to define all of the different queries and all of the different types that are available on this API. If you click the `schema` tab, you can take a look at this schema.
 
-01:31 We can do that for weight, command-click, command-click for name, but we can also do it for allPets and for totalPets.
+If you click on `allPets` in the schema tab, it'll show you all the different fields you can call on `allPets`. This is where we got our `category` field from where our types of pets are listed, `CAT`, `DOG`, `RABBIT`, and `STINGRAY`. 
 
+In the query side of the browser, you can hover over a field and hold `command`. If you then click on the field, it will pop up in the schema with that field definition. 
