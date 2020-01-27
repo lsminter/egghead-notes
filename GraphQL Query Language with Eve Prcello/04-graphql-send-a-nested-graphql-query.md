@@ -1,12 +1,30 @@
-Instructor: 00:00 I'd like to adjust this query to include a photo. I want to return a photo for each of these pets. Let's see if there's anything in the schema that'll help us out with that.
+[Lesson 4](https://egghead.io/lessons/graphql-send-a-nested-graphql-query)
 
-00:09 I'm going to search for photo using this search box at the top. I can select photo. It looks like photo is an object. The photo type has fields for full-size image and thumbnail-size image, both of which are strings. Each pet would have a photo.
+Let's see if we can add a photo for each of our pets. 
 
-00:26 If I query photo, it gives me this error message that says, "Field photo of type photo must have a selection of subfields."
+Start by using the search bar at the top of the schema tab and searching for `Photo`. Clicking on that, we see that it has two fields for either full size image or thumb size image. 
 
-Error message shown in the return panel produced from the query above
+  00:26 If I query photo, it gives me this error message that says, "Field photo of type photo must have a selection of subfields."
 
-Because photo is an object, I'm going to need to add another selection set here.
+If we add in the `photo` field, we get an error: `Field photo of type photo must have a selection of subfields.`
 
-00:38 This allows us to have some flexibility when we are sending a query. A photo may have more than one field associated with it. Then we can request just the fields that we want with our GraphQL query.
+Because `photo` is an object, I'm going to need to add another selection set here.
 
+  00:38 This allows us to have some flexibility when we are sending a query. A photo may have more than one field associated with it. Then we can request just the fields that we want with our GraphQL query.
+
+So if we add in `full` or `thumb` or both to our `photo` field, we get a link to our picture and no error message. 
+
+```query
+query {
+  allPets {
+    name
+    weight
+    category
+    photo {
+      thumb
+      full
+    }
+  }
+  totalPets
+}
+```
