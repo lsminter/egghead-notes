@@ -1,9 +1,26 @@
-To get started sending GraphQL queries, we'll go to https://pet-library.moonhighway.com. When we go to this route, a tool called GraphQL Playground will pop up in the browser.
+[Lesson link](https://egghead.io/lessons/graphql-send-a-query-with-graphql-playground)
 
-GraphQL Playground is an in-browser IDE that lets you send queries to GraphQL endpoints. The endpoint for the pet library is here in the center of the screen. With GraphQL, there's only one endpoint, so I need to specify what data I want by writing a query.
 
-I'll write the query on the left-hand side of the screen starting with the query keyword. I am going to ask for totalPets. How many pets are at the pet library?
+We use a specific [moonhighway](https://pet-library.moonhighway.com) repo that the instructor has previously set up. 
 
-When I click play, the data I requested will be returned to me as JSON. Notice that the shape of the query matches the shape of the response exactly. All of the fields are the same.
+GraphQL has only one endpoint, so to send data, you have to write a query. 
 
-We've sent our first query using GraphQL Playground. On the left, I wrote a query to describe what data I want to get from the pet library API. Then I click play which sends an http request, the post request to our GraphQL endpoint. I get the data back as JSON.
+To start writing a query, you'll click on the left box and type out: 
+
+```js
+query {
+  totalPets
+}
+```
+
+to get the total amount of pets in the library. 
+
+When you click the play button, your data will be returned as JSON. The JSON will be formatted the same as the query and all of the files will be the same. 
+
+```json
+{
+  "data": {
+    "totalPets": 25
+  }
+}
+```
