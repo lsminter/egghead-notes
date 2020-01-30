@@ -1,11 +1,110 @@
-Instructor: 00:00 Right now, on the left-hand side of our screen, we have a huge query. It's collecting a bunch of data about customers and then about pets. GraphQL will let us do this. We can grab information about multiple types in one query, but I want to break this down into two separate queries, one of which will be for pets. The other will be for customers.
+GraphQL will allow us to write out these huge queries and in this one we are collecting data about customers and pets. But what we want to do is break this down into two separate queries, one for pets and the other for customers. 
 
-00:21 As soon as I break this down into two separate queries, we're going to run into an issue. When I click play, there are two unnamed queries.
+```query
+query {
+  totalCustomers
+  allCustomers {
+    name
+    username
+    dataCreated
+    checkoutHistory {
+      pet {
+        name
+      }
+      checkOutDate
+      CheckInDate
+      late
+    }
+  }
+  availablePets: totalPets(status: AVAILABLE)
+  checkedOutPets: totalPets(status: CHECKEDOUT)
+  dogs: allPets(category: DOG, status: AVAILABLE) {
+    name
+    weight
+    status
+    category
+    photo {
+      full
+      thumb
+    }
+  }
+}
+```
 
-If I click the second one of these, it says, "This anonymous operation must be the only defined operation." If there's more than one query in your query document, you're going to need to give both of these a name.
+When we break this up into two queries, we have an issue. Both queries are unnamed. 
 
-00:40 Right now, these are anonymous queries. Think of those like anonymous functions. We need to give them a name. I'll call the first one, "PetPage." I'll call the second one, "CustomerPage."
+```query
+query {
+  availablePets: totalPets(status: AVAILABLE)
+  checkedOutPets: totalPets(status: CHECKEDOUT)
+  dogs: allPets(category: DOG, status: AVAILABLE) {
+    name
+    weight
+    status
+    category
+    photo {
+      full
+      thumb
+    }
+  }
+}
 
-Now if I select the play button, we'll see the drop-down. We'll also see the operation name, so I can execute these queries one at a time.
+query {
+  totalCustomers
+  allCustomers {
+    name
+    username
+    dataCreated
+    checkoutHistory {
+      pet {
+        name
+      }
+      checkOutDate
+      CheckInDate
+      late
+    }
+  }
+}
+```
 
-01:00 Just to recap, whenever you have more than one query inside of a query document, you need to give it an operation name. The operation name can be whatever you want to call it but conventionally is capitalized.
+Clicking on one of these unnamed queries, it gives us, "This anonymous operation must be the only defined operation." If we have more than one query, we need to give each of them a name to not have them blank. 
+
+  00:40 Right now, these are anonymous queries. Think of those like anonymous functions. We need to give them a name. I'll call the first one, "PetPage." I'll call the second one, "CustomerPage."
+
+The first one we will name `"PetPage"` and the second name will be `"CustomerPage"`. 
+
+```query
+query PetPage {
+  availablePets: totalPets(status: AVAILABLE)
+  checkedOutPets: totalPets(status: CHECKEDOUT)
+  dogs: allPets(category: DOG, status: AVAILABLE) {
+    name
+    weight
+    status
+    category
+    photo {
+      full
+      thumb
+    }
+  }
+}
+
+query CustomerPage {
+  totalCustomers
+  allCustomers {
+    name
+    username
+    dataCreated
+    checkoutHistory {
+      pet {
+        name
+      }
+      checkOutDate
+      CheckInDate
+      late
+    }
+  }
+}
+```
+
+Now a cool thing happens. When we click the Play button, we get a drop down menu where we can select which query we want to run, `PetPage` or `CustomerPage`. 
