@@ -1,17 +1,80 @@
-Instructor: 00:00 Now that we have an account, we can log in. Let's look at our mutation's list. We should see that there is a logIn mutation. I'm going to go ahead and write that here in our query document. We'll use logIn with the capital I. We'll use our username, our password.
+Now that an account has been created, we can login. Find login in the mutations in the schema tab and write that out in the query document with our `username` and `password`.
 
-00:16 What's returned from the logIn mutation is a type called the logIn payload. This is a custom object that returns both the customer, all the of the customer details, and the user token. We're going to use the user token to validate that the user is authorized.
+```query
+mutation {
+  logIn(username: "ep123" password: "pass") {
 
-00:31 When we send the logIn mutation, we're going to have access to all of the customer details. Grab their name. We're going to grab the token.
+  }
+}
+```
 
-00:40 Let's go ahead and hit play. We see our customer name, which is my name that I provided when I created my account. I also see my token.
+The logIn mutation returns whats called a `logInPayload`. This returns both the customer details and their token. We use the token to check if a user is authorized or not. So lets go ahead and grab their name and their token. 
 
-We're going to place this in another panel here at the bottom called HTTP headers.
+```query
+mutation {
+  logIn(username: "ep123" password: "pass") {
+    name
+  }
+  token
+}
+```
+ 
+When you hit play, you will see the username as well as the token. 
 
-00:53 Now, this is easy to get mixed up with query variables. We'll make sure that we're in the HTTP header section and we'll add the authorization key. We'll add Bearer. We'll paste in this token.
+```json
+{
+  "data": {
+    "logIn": {
+      "customer": {
+        "name": "Eve Porcello"
+      },
+      "token": 
+      "user token"
+    }
+  }
+}
+```
 
-01:07 Once I provide this token in the HTTP headers, I'm going to be able to send queries that are only for authorized uses. Now the query I am going to send here is called "me". Me is going to give me information about myself, the currently authenticated user.
+To authorize a user, in the bottom left, click on `HTTP HEADERS`, create an object, add in `Authorization`, `Bearer`, then the token. 
 
-01:23 The Me query returns customer details for anyone who's logged in. Here I'll query the name field. I'm going to add an operation name, because I have two different operations here in my query document. I'll call query Me, and I'll call the mutation LogIn.
+```json
+{
+  "Authorization": "Bearer user token"
+}
+```
 
-01:37 Now, I can send this query and I should see all of the details for myself, because I am a logged in user. Since I'm logged in, I'll be able to check in and check out pets.
+Now with that finished, we can send queries that are for authorized users only. We will send the query `me` which is just going to send info about myself. 
+
+```query
+query {
+  me {
+
+  }
+}
+
+mutation {
+  logIn(username: "ep123" password: "pass") {
+    name
+  }
+  token
+}
+```
+
+The `me` query returns customer details for anyone thats logged in. We will name our query `Me` as well as name the mutation `LogIn`. Lastly add `name` as a field on our `me` query. 
+
+```query
+query Me {
+  me {
+    name
+  }
+}
+
+mutation LogIn {
+  logIn(username: "ep123" password: "pass") {
+    name
+  }
+  token
+}
+```
+
+Now, we can send this query and we should see all of the details for ourselves, because we are a logged in user. Since we are logged in, we'll be able to check in and check out pets.
