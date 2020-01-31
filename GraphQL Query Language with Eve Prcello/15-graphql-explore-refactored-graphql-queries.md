@@ -1,14 +1,36 @@
-Instructor: 00:00 The pet library just got some funding, some VC money, so we're going to open up our browser and head over to the new version of the app. We're going to go to https://funded-pet-library.moonhighway.com.
+There have been some updates to our pet library. We start by making a query for `totalPets`. But we can make two more new queries, `availablePets` and `checkedOutPets`. We can access these values without having to use any filters or arguments. 
 
-00:13 You'll notice our new endpoint here at the center of the screen. With a larger budget comes more engineers and some enhancements to our API, one of which is that we have some more specific queries that may be easier to track.
+```query
+query {
+  totalPets
+  availablePets
+  checkedOutPets
+}
+```
 
-00:28 Let's write our query for totalPets.
+There is another new query called `customersWithPets`. This returns a list of all the customers with pets checked out. 
 
-We'll see 25, but we have these new queries here, availablePets. We also have checkedOutPet, and we can access those values without having to use any filters or send any arguments.
+```query
+query {
+  customersWithPets {
 
-00:43 We also have another query here called customersWithPets.
+  }
+  totalPets
+  availablePets
+  checkedOutPets
+}
+```
 
-Now, if we look at this in the schema, we'll see that this query will return a list of all of the customers who currently have pets checked out.
+This refactor makes things much easier for us. We have access to all of the same data but don't have to use as much boilerplate to get it to work. 
 
-00:54 This refactor gives us access to the same data, but we don't have to use as many arguments, and we've moved a lot of the logic of filtering, sorting to the server instead of having to handle this in the playground.
-
+```query
+query {
+  customersWithPets {
+    username
+    name
+  }
+  totalPets
+  availablePets
+  checkedOutPets
+}
+```
