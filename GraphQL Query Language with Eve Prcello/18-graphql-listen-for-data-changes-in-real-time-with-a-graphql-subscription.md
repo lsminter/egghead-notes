@@ -1,21 +1,65 @@
-Instructor: 00:00 At this point, we've requested data with queries, we've changed data with mutations. There's one more operation type, though, with GraphQL. That is a GraphQL subscription. Let's say we wanted to set up a real-time listener for anytime a pet is returned.
+The last operation type we are going to look at is GraphQL Subscription. Let's say we wanted to set up a real-time listener for anytime a pet is returned.
 
-00:16 The way that we would do this is to use a subscription. Let's close the schema, and in order to check in a pet, we have to check out a pet. In order to do either of those things, we have to be logged in. Let's make sure that we're logged in.
+To do this first we need to login, checkout a pet, then be able to checkin a pet. 
 
-00:30 We're going to provide our username and our password, and now, I can log in.
+```query
+mutation {
+  logIn(username: "ep123" password: "123") {
+    customer {
+      username
+      name
+    }
+    token
+  }
+}
+```
 
-The next thing I want to do is grab the token so that I can make myself an authorized user. I will add this to the HTTP headers under the authorization key. We'll add Bearer and paste the token.
+Click play on this so we can get the token and authorize the user. Add a Bearer and past in the token into the HTTP HEADERS. 
 
-00:50 The next step is I want to add a subscription. Let's add a new tab. We're going to add our subscription here. These, as we saw, are named just like queries and mutations. This time, it's going to be called petReturned.
+```
+{
+  "Authorization": "Bearer token"
+}
+```
 
-01:03 The petReturned subscription returns something. What this returns is the checkout object. We have access to the pet, the checkout date, the check-in date, and whether or not the pet was late.
 
-01:16 Here, we want to add the pet query, and then we'll add name.
+Now we want to add in our subscription. Our query is going to be called `petReturned`. 
 
-As soon as I click play, we're going to notice some different behavior. This is listening for any changes, so it's not a request and a response. Instead, we're listening over a web socket.
+The `petReturned` subscription returns the `Checkout` object. This gives us access to `pet`, `checkoutDate`, `checkInDate`, and `late`. So we will add the `pet` query and `name`. 
 
-01:30 Now, let's open up one final tab here. We're going to add a mutation for checkout, and the pet that I want to check out is going to be C-2. I'll get the pet and their name, then I'll change this to checkin to check-in the same pet.
+```query
+subscription {
+  petReturned {
+    pet {
+      name
+    }
+  }
+}
+```
 
-01:46 Now, if I switch back to our subscription, we see that the petReturned subscription has heard some new data.
+Now when we click play, we get text at the bottom saying `Listening ...` and a spinner in the middle of the tab. It's waiting and listening to any changes being made. 
 
-We've echoed back this checkout object. The GraphQL subscription is very useful. Whenever you have any real-time needs in your application, you're going to use a subscription. Then we can use a mutation to trigger that change.
+Now we add a mutation and checkout a pet, immediately check back in that pet. 
+
+```query
+mutation {
+  checkIn(id: "C-2")
+  pet {
+    name
+  }
+}
+```
+
+Swapping back to our subscription tab, we see the data for that checkedIn pet. 
+
+```json
+{
+  "data": {
+    "petReturned": {
+      "pet": {
+        "name": "Jungle"
+      }
+    }
+  }
+}
+```
