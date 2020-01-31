@@ -1,13 +1,49 @@
-Instructor: 00:00 The next step I want to take is to actually check out a pet. The checkout mutation takes in an ID of a pet to check out. I need to look at the pets that are currently available and find a pet to check out.
+Now we are going to make it so that we can checkout a pet. The checkout mutation takes an ID of a pet to checkout. Let's look at the available pets to checkout. 
 
-00:10 I'll send the allPets query with a status Available filter. I'll grab the id, the name, and the category.
+Lets query `allPets` with the status of `AVAILABLE`, return the `id`, `name` and `category`. 
 
-Let me scroll down a little bit to find out who I want to check out. I want to check out this STINGRAY called Switchblade.
+```query
+query {
+  allPets(status:AVAILABLE) {
+    id
+    name
+    category
+  }
+}
+```
 
-00:23 In order to do so, I'm going to need to send S-2 as an ID. At this point, I can add one more mutation to our query document. Our mutation is going to be called checkout. We'll give the mutation an operation name of Checkout, and we'll use the checkOut mutation.
+Now we choose which pet to checkout. Let's choose the stingray called Switchblade. 
 
-00:40 We'll pass the id of S-2, and we want to grab details about the pet, so we'll grab their name. Let's also get some details about the customer. The customer is going to be me, but I'll grab my name as well.
+To do that, we set `S-2` to id as well as the other details about the pet, `name`, as well as some details about the customer, `name`. 
 
-When I send the Checkout mutation, I should see the pet has been checked out, and I see the customer who has checked that pet out.
+```query
+mutation Checkout {
+  checkOut(id: "S-2") {
+    pet {
+      name
+    }
+    customer {
+      name
+    }
+  }
+}
+```
 
-01:02 If we look at the checkout mutation, we see that this returns the checkout payload. The checkout payload gives us the entire customer object, the entire pet object, and the checkout date. These custom response objects that we can return for mutations are pretty cool. We're able to grab customer fields, pet details, and the checkout date, all bundled into one object.
+  When I send the Checkout mutation, I should see the pet has been checked out, and I see the customer who has checked that pet out.
+
+Sending that query, we see the pet name that has been checked out as well as the customer name. 
+
+```json
+{
+  "data": {
+    "checkOut": {
+      "pet": {
+        "name": "Switchblade"
+      },
+      "customer": {
+        "name": "Eve Porcello:
+      }
+    }
+  }
+}
+```
