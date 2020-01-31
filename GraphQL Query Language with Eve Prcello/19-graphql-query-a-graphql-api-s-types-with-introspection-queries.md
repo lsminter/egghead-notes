@@ -1,25 +1,79 @@
-Instructor: 00:00 Throughout this process, we've used the schema tab to look at all the available queries and types on this API. There's also a way that we can use the query language itself to look at, or introspect, the schema.
+We are going to look at how to see the available queries and types without having to use the schema tab.
 
-00:12 We're going to send some introspection queries to look at the schema for this API. The first thing we're going to query is __schema. This will show us the schema for this server. We can query all of the types on the types query, then let's look at the name, the kind, and the description.
+We start by writing out the query for `__schema`, then getting the `types` for that schema, then getting the `name`, `kind`, and `description` for the type. 
 
-00:32 I'm going to go ahead and click play on this, and we should see all of the different types.
+```query
+query {
+  __schema {
+    types {
+      name
+      kind
+      description
+    }
+  }
+}
+```
 
-Now, let's write a query for just the customer type. We're going to query __type. We're going to use the type name. Let's add Customer as a string.
+Clicking play on this, shows us all of the different types. 
 
-00:50 Then we if want to find out what fields are available on the customer type, we can query fields, name, and description for each.
+Now to write a query for the customer type. We query the `__type` with a `name` of `Customer`. Then for the `fields`, we just want the `name` and `description`.
 
-Now, if I look at customer, we see username, name, dateCreated, currentPets, all of the fields that we're familiar with, along with their descriptions.
+```query
+query Customer {
+  __type(name: "Customer") { 
+    fields {
+      name
+      description
+    }
+  }
+}
+```
 
-01:09 What if we wanted to ask our schema which queries are available on this API? Let's write another query for AvailableQueries. We'll look at the schema, and then we'll look at queryType. Query type, we want to look at the fields, so what fields are available in that query type.
+Clicking play on that, we see the `username`, `name`, `dateCreated`, `currentPets`, and their `description`.
 
-01:26 Then let's look at the name and the description.
+To figure out what available queries we have, we'll start by writing a query for `AvailableQueries`. We look at the `__schema`, the `queryType` for that schema, the `fields` for the queryType, and the `name` and `description` for those fields. 
 
-We should see, if we click on AvailableQueries, totalPets, availablePets, checkedOutPets, all of the queries on this API.
+```query
+query AvailableQueries {
+  __schema {
+    queryType {
+      fields {
+        name
+        description
+      }
+    }
+  }
+}
+```
 
-The final query I want to send is for the pet interface.
+Now we see all of the totalPets, availablePets, checkedOutPets, all of the queries on this API when we click the play button. 
 
-01:41 Let's write a query for InterfaceTypes. We're going to look at __type. We'll look for the pet interface. Then we can look for the kind.
+The last query to look at is the `Pet` interface. So we will write a query for `InterfaceTypes`, look at the `__type`,  and look for the `kind`, `name` and `description` of the pet. 
 
-This will give us the kind, the interface. We're going to figure out the name, the description.
+```query
+query InterfaceTypes {
+  __type(name: "Pet") {
+    kind
+    name
+    description
+  }
+}
+```
 
-02:01 This should give us the pet and the description for that pet interface. Then finally, if you want to see all of the different implementations of that interface, all you need to do is look at possibleTypes. Then we'll query name, kind, description. There we go. Cat, Dog, Rabbit, and Stingray.
+To see the different implementations of an interface, you use `possibleTypes`. Query for the `name`, `kind`, and `description`. 
+
+```query
+query Interfacetypes {
+  __type(name: "Pet") {
+    kind
+    name
+    description
+    possibletypes {
+      name
+      kind
+      description
+    }
+  }
+}
+
+This prints out all of that relevent information!
