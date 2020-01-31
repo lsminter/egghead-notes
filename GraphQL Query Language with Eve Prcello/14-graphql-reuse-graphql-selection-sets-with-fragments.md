@@ -1,27 +1,103 @@
-Instructor: 00:00 Let's start by adding a query for allPets, and we want to filter this by category. We'll look for all the rabbits, and we'll also filter by status to find the AVAILABLE rabbits. Next, we want to select a few fields.
+We start with a query for `allPet` and filter by `category` of `RABBIT` and a `status` of `AVAILABLE`. 
 
-00:12 We'll grab name, weight, and category, and we should see all of these available rabbits. We also want to grab their status.
+On that, we will grab `name`, `weight`, `category`, and `status`.
 
-If only there was a way in the GraphQL query language to make all of these selection sets a little bit more reusable.
+```query
+query {
+  allPets(category: RABBIT, status: AVAILABLE) {
+    name
+    weight
+    category
+    status
+  }
+}
+```
 
-00:27 The good news is, there is. I'm going to create a fragment called PetDetails. Think of a fragment of being a wrapper around several fields. PetDetails is going to be a fragment on a certain type. This is going to be for Pet.
+Now we are going to make it so that we don't have to type these fields out every time we want to use them. We start by making a `fragment` called `PetDetails`. PetDetails is going to be a fragment on a certain type. This is going to be for `Pet`.
 
-00:40 Then we're going to cut and paste all of these fields into the fragment, and we'll use spread syntax, ..., to push all of the PetDetails into this query.
+```query
+fragment PetDetails on Pet {}
+```
 
-We're able to send the query and see that all of the field are still being sent with the query.
+We copy over those fields into the fragment and push the `PetDetails` into the query by using the spread syntax. 
 
-00:54 Now, we can also adjust the fragment to add additional fields. If I wanted to grab the photo as well as the thumbnail, we can see that the thumbnail for the photo is being returned.
+```query
+query {
+  allPets(category: RABBIT, status: AVAILABLE) {
+    ...PetDetails
+  }
+}
 
-Let's add onto this query a little bit and add petByID.
+fragment PetDetails on Pet {
+  name
+  weight
+  category
+  status
+}
+```
 
-01:08 We're going to look for the pet C-1, and here, we can reuse PetDetails inside of the query so that we don't have to retype them. There we go, we get all of those fields for that pet. You can also add additional fields alongside your fragment.
+Clicking play, we still see everything printed out as it was before. 
 
-01:24 Let's add inCareOf, name, and username.
+  00:54 Now, we can also adjust the fragment to add additional fields. If I wanted to grab the photo as well as the thumbnail, we can see that the thumbnail for the photo is being returned.
 
-We should see the person who has checked out this pet. Since we're having so much fun with fragments, we can create a fragment for CustomerDetails. We're going to specify that these fields come from the customer type, and we can add name and username from inCareOf.
+We can add other fields as well, such as the thumbnail for the pet photo. 
 
-01:43 We can then push those fields into the query, hit prettify to get rid of that spacing issue again, and click play.
+```query
+fragment PetDetails on Pet {
+  name
+  weight
+  category
+  status
+  photo {
+    thumb
+  }
+}
+```
 
-We see all of those fields are being returned. We created a fragment called PetDetails. This will take all of these fields and put them into the query.
+  Let's add onto this query a little bit and add petByID.
 
-01:57 Then we have another for CustomerDetails. All of the fields we want are going to be pushed into the query when we use that fragment syntax, ..., and then the name of the fragment.
+  01:08 We're going to look for the pet C-1, and here, we can reuse PetDetails inside of the query so that we don't have to retype them. There we go, we get all of those fields for that pet. You can also add additional fields alongside your fragment.
+
+  01:24 Let's add inCareOf, name, and username.
+
+Let's add onto our query with `petById`. Let's look for the pet `C-1` and add in `PetDetails` again. We can also add in additional fields with the fragment. Let's add `inCareOf`, `name`, and `username`. 
+
+```query
+query {
+  petById(id: "C-1") {
+    ...PetDetails
+    inCareOf {
+      name
+      username
+    }
+  }
+  allPets(category: RABBIT, status: AVAILABLE) {
+    ...PetDetails
+  }
+}
+```
+
+  We should see the person who has checked out this pet. Since we're having so much fun with fragments, we can create a fragment for CustomerDetails. We're going to specify that these fields come from the customer type, and we can add name and username from inCareOf.
+
+This prints out everything we would expect. Now we can create a fragment for `CustomerDetails` as well. We will add in `name` and `username`. 
+
+```query
+query {
+  petById(id: "C-1") {
+    ...PetDetails
+    inCareOf {
+      ...CustomerDetails
+    }
+  }
+  allPets(category: RABBIT, status: AVAILABLE) {
+    ...PetDetails
+  }
+}
+
+fragment CustomerDetails on Customer {
+  name
+  username
+}
+```
+
+Everything prints out as we would expect it to. 
