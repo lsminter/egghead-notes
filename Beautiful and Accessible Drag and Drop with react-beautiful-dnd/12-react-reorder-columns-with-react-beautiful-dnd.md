@@ -1,4 +1,4 @@
-## [Lesson 12]()
+## [Lesson 12](https://egghead.io/lessons/react-reorder-columns-with-react-beautiful-dnd)
 
 Now we are going to work on being able to reorder our columns. 
 

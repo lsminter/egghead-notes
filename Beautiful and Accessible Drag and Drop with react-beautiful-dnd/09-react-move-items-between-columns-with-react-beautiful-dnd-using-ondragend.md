@@ -1,4 +1,4 @@
-## [Lesson 9]()
+## [Lesson 9](https://egghead.io/lessons/react-move-items-between-columns-with-react-beautiful-dnd-using-ondragend)
 
 Here we are going to be adding in two more columns, an in progress and done column. We can just quickly add those  in our `initial-data.js` file. 
 

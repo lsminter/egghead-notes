@@ -1,4 +1,4 @@
-## [Lesson 14]()
+## [Lesson 14](https://egghead.io/lessons/react-customize-screen-reader-messages-for-drag-and-drop-with-react-beautiful-dnd)
 
 In this lesson, we are going to be talking about customizing the screen reader and its messages. 
 

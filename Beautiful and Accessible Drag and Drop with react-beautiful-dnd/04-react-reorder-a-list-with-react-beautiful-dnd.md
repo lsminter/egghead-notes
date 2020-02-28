@@ -1,4 +1,4 @@
-## [Lesson 4]()
+## [Lesson 4](https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd)
 
 We start by downloading and adding `react-beautiful-dnd` to our `package.json` and wrap our column in `index.js` with a `Container`.
 On Container, we only want one thing, `onDragEnd` which we are going to leave blank for now. 

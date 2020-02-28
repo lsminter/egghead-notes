@@ -1,4 +1,4 @@
-## [Lesson 6]()
+## [Lesson 6](https://egghead.io/lessons/react-customise-the-appearance-of-an-app-during-a-drag-using-react-beautiful-dnd-snapshot-values)
 
 Now we are going to be working on customizing the appearance of an app during a drag. 
 
